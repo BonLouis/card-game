@@ -1,6 +1,7 @@
-# game-card
+# card-game
 
-> A Vue.js project
+> A Vue.js project involving Vue, Vue-Router, Vuex and Sockets.
+>> Build with webpack-template
 
 ## Build Setup
 
