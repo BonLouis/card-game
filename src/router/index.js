@@ -1,17 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from '@/views/HomePage'
-import test from '@/components/test'
+import Login from '@/views/Login'
 
 import store from '@/store';
-const { user } = store.state;
 
-console.log(user);
+Vue.use(Router);
 
-Vue.use( Router );
-
-const router = new Router( {
-	routes: [ {
+const router = new Router({
+	routes: [{
 		path: '/',
 		name: 'HomePage',
 		component: HomePage,
@@ -20,26 +17,38 @@ const router = new Router( {
 		}
 	}, {
 		path: '/login',
-		component: test,
-	} ]
-} );
+		component: Login,
+		meta: {
+			requiresAuth: false
+		}
+	}]
+});
 
-router.beforeEach( ( to, from, next ) => {
-	if ( to.matched.some( record => record.meta.requiresAuth ) ) {
-		debugger;
+router.beforeEach((to, from, next) => {
+	if (to.matched.some(record => record.meta.requiresAuth)) {
 		// this route requires auth, check if logged in
 		// if not, redirect to login page.
-		if ( !user.isConnected ) {
-			next( {
-				path: '/login',
-				query: { redirect: to.fullPath }
-			} )
+		if (!store.getters.userIsLogged) {
+
+			if (!localStorage.getItem('pseudo')) {
+				next({
+					path: '/login',
+					query: {
+						redirect: to.fullPath
+					}
+				})
+			} else {
+				store.dispatch('initUser', localStorage.getItem('pseudo'))
+					.then(_ => {
+						next();
+					});
+			}
 		} else {
-			next()
+			next();
 		}
 	} else {
-		next() // make sure to always call next()!
+		next(); // make sure to always call next()!
 	}
-} );
+});
 
 export default router;

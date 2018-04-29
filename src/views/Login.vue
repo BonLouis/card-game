@@ -1,7 +1,10 @@
 <template>
 <div class="hello">
-	<h1>{{ msg }}</h1>
-	<button @click="loggin">click</button>
+	<form @submit.prevent="log">
+		<input type="text"
+		       v-model.trim="pseudo"
+		       placeholder="Entrez votre pseudo">
+	</form>
 </div>
 
 </template>
@@ -11,12 +14,18 @@ export default {
 	name: 'HelloWorld',
 	data() {
 		return {
-			msg: 'Login pag dud'
+			pseudo: ''
 		}
 	},
 	methods: {
-		loggin: function() {
-			console.log('wanna loggin dude')
+		log () {
+			this.$store.dispatch('initUser', this.pseudo)
+				.then(_ => {
+					this.goNext();
+				});
+		},
+		goNext () {
+			this.$router.push({path: this.$route.query.redirect});
 		}
 	}
 }

@@ -6,8 +6,8 @@ import store from '@/store';
 
 Vue.use( VueSocketio, 'http://localhost:3030', store );
 
-export default {
-	test: function ( val ) {
-		console.log( 'this method was fired by the socket server. data:', val )
-	}
-}
+// export default {
+// 	test: function ( val ) {
+// 		console.log( 'this method was fired by the socket server. data:', val )
+// 	}
+// }

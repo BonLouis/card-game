@@ -3,10 +3,13 @@
 import Vue from 'vue';
 import App from '@/App';
 
-import sockets from '@/sockets';
+// import sockets from '@/sockets';
 import router from '@/router';
 import store from '@/store';
 
+import VueSocketio from 'vue-socket.io';
+
+Vue.use( VueSocketio, 'http://localhost:3030', store );
 
 Vue.config.productionTip = false
 
@@ -16,7 +19,7 @@ new Vue( {
 	components: { App },
 	template: '<App/>',
 
-	sockets,
+	// sockets,
 	router,
 	store
 } )
